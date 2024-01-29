@@ -1,66 +1,101 @@
-#include <iostream>
-#include <fstream>
+#include <iostream> 
+#include <fstream> // reading and writing files 
 #include <string>
 
 using namespace std;
 
 bool isLoggedIn()
 {
-    string username, password, un, pw;
+    string username, password;
+    string un, pw; // comparison strings
 
-    cout << "Enter a username: "; cin >> username;
-    cout << "Enter a password: "; cin >> password;
+    cout << "Enter a username: ";
+    cin >> username; 
+    cout << "Enter a password: ";
+    cin >> password;
 
-    ifstream read("data\\" + username + ".txt");
-    getline(read, un);
-    getline(read, pw);
+    ifstream read(username + ".txt"); // ifstream reads a file 
+    getline(read, un); // reads the username 
+    getline(read, pw); // reads the password
 
-    if (un == username && pw == password)
+    if(un == username && pw == password) // if both un & username and pw & password are the same, true
     {
         return true;
-        
-    } 
+    }
     else
     {
         return false;
     }
- 
 }
 
 int main()
 {
     int choice;
 
-    cout << "1: Register\n2: Login\n Your choice: "; cin >> choice;
-    if (choice == 1)
+    cout << endl;
+    cout << "Main Menu: " << endl;
+    cout << "-------------------------------" << endl;
+    cout << "1. Register" << endl;
+    cout << "2. Login" << endl;
+    cout << endl;
+    cout << "Your choice: ";
+    cin >> choice; 
+
+    if(choice == 1)
     {
         string username, password;
 
-        cout << "select a username: "; cin >> username;
-        cout << "select a password: "; cin >> password;
-        
-        ofstream file;
-        file.open("data\\" + username + ".txt");
-        file <<username << endl << password;
-        file.close();
+        cout << "Registration: " << endl;
+        cout << endl;
+        cout << "Select a username: "; 
+        cin >> username;
+        cout << "Select a password: ";
+        cin >> password;
 
-        main();
+        ofstream file; // ofstream creates a file
+        file.open(username + ".txt"); 
+        file << username << endl << password;
+        file.close();
+        cout << "Welcome " << username << "!" << endl;
     }
-    else if (choice == 2)
+    else if(choice == 2) // if user chooses to login
     {
         bool status = isLoggedIn();
 
-        if (!status)
+        if(!status) // if isLoggedIn() returns false
         {
-            cout << "False login, check details." << endl;
-            system("PAUSE");
+            system("clear");
+            cout << endl;
+            cout << "Invalid login!" << endl;
+            main();
             return 0;
-
         }
-        else
+        else // if isLoggedIn() returns true, the dashboard is displayed
         {
             cout << "Successfully logged in!" << endl;
-            system("PAUSE");
+            cout << endl;
+
+            int choiceTwo;
+
+            // Display dashboard:
+            cout << "Welcome back!" << endl;
+            cout << endl;
+            cout << "DASHBOARD" << endl;
+            cout << "No new messages." << endl; // example of what could appear on the user's dashboard
+            cout << endl;
+            cout << "1. Sign Out" << endl;
+            cout << "2. Back to main menu" << endl;
+            cout << "Your choice: " << endl;
+            cin >> choiceTwo;
+
+            if(choiceTwo == 1)
+            {
+                system("exit"); // exits program 
+            }
+            else if(choiceTwo == 2)
+            {
+                main(); // returns to the beginning of the main() function
+            }
             return 1;
         }
     }
